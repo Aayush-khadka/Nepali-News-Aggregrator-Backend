@@ -15,7 +15,7 @@ Connect_Db()
 
 scrapeKathmanduPost()
   .then(() => {
-    console.log("Finished Scraping !!!");
+    console.log("Finished Scraping The Kathmandu Post !!!");
   })
   .catch((err) => {
     console.log("ERROR IN SCRAPING ", err);

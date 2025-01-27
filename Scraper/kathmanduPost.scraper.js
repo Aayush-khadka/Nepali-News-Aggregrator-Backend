@@ -14,6 +14,8 @@ export async function scrapeKathmanduPost() {
   ];
 
   for (let j = 0; j < urlNames.length; j++) {
+    console.log(`Started Scraping The Category : ${urlNames[j]} `);
+
     const url = `https://kathmandupost.com/${urlNames[j]}`;
 
     const browser = await puppeteer.launch();
@@ -126,7 +128,7 @@ export async function scrapeKathmanduPost() {
       await newPage.close();
     }
 
-    console.log(`Finished Scraping:${urlNames[j]}`);
+    console.log(`Finished Scraping The Category : ${urlNames[j]}`);
 
     await browser.close();
   }
