@@ -2,7 +2,6 @@ import puppeteer from "puppeteer";
 import mongoose from "mongoose";
 import { Article } from "../models/article.model.js";
 
-// (async () => {
 export async function scrapeKathmanduPost() {
   const url = "https://kathmandupost.com/money";
 
@@ -83,25 +82,34 @@ export async function scrapeKathmanduPost() {
       const img = document.querySelector(".col-sm-8 img.img-responsive");
       return img ? img.src : "No Image Found";
     });
-    try {
-      const insertArticle = await Article.create({
-        title: articleTitle,
-        subTitle: subArticleTitle,
-        authorName: author.authorName,
-        authorProfileLink: author.authorlink,
-        articleLink: links[i],
-        articleImage: articelImg,
-        publishedTime: publishedTimes[0],
-        updatedTime: publishedTimes[1],
-        updatedPlace: publishedTimes[2],
-        articleText: article,
-        tag: tag,
-      });
 
-      console.log("Article inserted");
-    } catch (error) {
-      console.error("Failed to insert article:", error);
+    const findArticle = await Article.find({ title: articleTitle });
+
+    if (!findArticle) {
+      try {
+        await Article.create({
+          title: articleTitle,
+          subTitle: subArticleTitle,
+          authorName: author.authorName,
+          authorProfileLink: author.authorlink,
+          articleLink: links[i],
+          articleImage: articelImg,
+          publishedTime: publishedTimes[0],
+          updatedTime: publishedTimes[1],
+          updatedPlace: publishedTimes[2],
+          articleText: article,
+          tag: tag,
+          source: "The Kathmandu Post",
+        });
+
+        console.log("Article inserted!!!");
+      } catch (error) {
+        console.error("Failed to insert article!!!", error);
+      }
+    } else {
+      console.log("Article is Already Scraped!!!");
     }
+
     await newPage.close();
   }
 

@@ -47,6 +47,10 @@ const articleSchema = new Schema({
     required: true,
     trim: true,
   },
+  source: {
+    type: String,
+    required: true,
+  },
 });
 
 export const Article = mongoose.model("Article", articleSchema);
