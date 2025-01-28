@@ -1,5 +1,10 @@
 import puppeteer, { JSHandle } from "puppeteer";
 import { Article } from "../models/article.model.js";
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function scrapeRisingNepal() {
   const urlNames = [
@@ -89,6 +94,33 @@ export async function scrapeRisingNepal() {
           : "Unable to Find the author Link";
       });
       const findArticle = await Article.find({ title: title });
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [
+          {
+            role: "user",
+            content:
+              "Can you provide a brief, high-quality summary of this article in 2-3 sentences, highlighting the main points? ",
+          },
+          {
+            role: "assistant",
+            content: `<think>\nOkay, so the user is asking for a summary of this article in 2-3 sentences. They want it to be high-quality and highlight the main points. First, I need to read through the article carefully to understand what's going on. ${article} `,
+          },
+        ],
+        model: "deepseek-r1-distill-llama-70b",
+        temperature: 0.6,
+        max_completion_tokens: 4096,
+        top_p: 0.95,
+        stream: true,
+        stop: null,
+      });
+
+      let fullResponse;
+      for await (const chunk of chatCompletion) {
+        const content = chunk.choices[0]?.delta?.content || "";
+        fullResponse += content;
+      }
+
+      const aiSummary = fullResponse.split("</think>")[1]?.trim();
 
       if (findArticle.length === 0) {
         try {
@@ -103,6 +135,7 @@ export async function scrapeRisingNepal() {
             updatedTime: "NOT FOUND",
             updatedPlace: "NOT FOUND",
             articleText: article,
+            summary:aiSummary,
             tag: "Politics",
             source: "The Rising Nepal",
           });
