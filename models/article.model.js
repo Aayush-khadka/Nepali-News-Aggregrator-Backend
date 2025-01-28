@@ -32,7 +32,8 @@ const articleSchema = new Schema({
     type: String,
   },
   updatedTime: {
-    type: Date,
+    type: String,
+    trim: true,
   },
   updatedPlace: {
     type: String,

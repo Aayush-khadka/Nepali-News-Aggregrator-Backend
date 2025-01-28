@@ -29,7 +29,7 @@ export async function scrapeKathmanduPost() {
       return Array.from(articleLinks).map((link) => link.href);
     });
 
-    console.log(`Total Links Found In :${urlNames[j]} Category`, links.length);
+    console.log(`Total Links Found In ${urlNames[j]} Category`, links.length);
 
     for (let i = 0; i < links.length; i++) {
       const articleUrl = links[i];
