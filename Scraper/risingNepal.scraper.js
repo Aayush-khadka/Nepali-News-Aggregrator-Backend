@@ -3,7 +3,7 @@ import { Article } from "../models/article.model.js";
 
 export async function scrapeRisingNepal() {
   const urlNames = [
-    "national",
+    "nation",
     "politics",
     "society",
     "science-tech",
