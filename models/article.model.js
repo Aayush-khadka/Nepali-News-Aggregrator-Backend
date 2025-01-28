@@ -52,6 +52,14 @@ const articleSchema = new Schema({
     type: String,
     required: true,
   },
+  summary: {
+    type: String,
+    required: true,
+  },
+  scraptedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 export const Article = mongoose.model("Article", articleSchema);
