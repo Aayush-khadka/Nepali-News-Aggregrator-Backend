@@ -6,7 +6,7 @@ import { ApiError } from "../utils/ApiError.js";
 const getPolitics = asynchandler(async (req, res) => {
   const articles = await Article.find({ tag: "Politics" })
     .sort({ scraptedAt: -1 })
-    .exec();
+
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with 'Politcs' tag!");
   }
@@ -26,7 +26,7 @@ const getSociety = asynchandler(async (req, res) => {
     tag: { $in: ["society", "Kathmandu", "Lalitpur", "Bhaktapur"] },
   })
     .sort({ scraptedAt: -1 })
-    .exec();
+   
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with that tag!");
   }
@@ -44,7 +44,7 @@ const getSociety = asynchandler(async (req, res) => {
 const getNational = asynchandler(async (req, res) => {
   const articles = await Article.find({ tag: { $in: ["National", "nation"] } })
     .sort({ scraptedAt: -1 })
-    .exec();
+    
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with that tag!");
   }
@@ -62,7 +62,7 @@ const getNational = asynchandler(async (req, res) => {
 const getScienceAndTech = asynchandler(async (req, res) => {
   const articles = await Article.find({ tag: { $in: ["science-tech"] } })
     .sort({ scraptedAt: -1 })
-    .exec();
+    
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with that tag!");
   }
@@ -80,7 +80,7 @@ const getScienceAndTech = asynchandler(async (req, res) => {
 const getBusiness = asynchandler(async (req, res) => {
   const articles = await Article.find({ tag: { $in: ["Money", "business"] } })
     .sort({ scraptedAt: -1 })
-    .exec();
+    
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with that tag!");
   }
@@ -100,7 +100,7 @@ const getOpinion = asynchandler(async (req, res) => {
     tag: { $in: ["editorial", "Editorial"] },
   })
     .sort({ scraptedAt: -1 })
-    .exec();
+   
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with that tag!");
   }
@@ -118,7 +118,7 @@ const getOpinion = asynchandler(async (req, res) => {
 const getSports = asynchandler(async (req, res) => {
   const articles = await Article.find({ tag: { $in: ["sports", "Sports"] } })
     .sort({ scraptedAt: -1 })
-    .exec();
+    
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with that tag!");
   }
@@ -136,7 +136,7 @@ const getSports = asynchandler(async (req, res) => {
 const getHealth = asynchandler(async (req, res) => {
   const articles = await Article.find({ tag: { $in: ["health"] } })
     .sort({ scraptedAt: -1 })
-    .exec();
+    
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with that tag!");
   }
@@ -153,7 +153,7 @@ const getHealth = asynchandler(async (req, res) => {
 const getWorld = asynchandler(async (req, res) => {
   const articles = await Article.find({ tag: { $in: ["world"] } })
     .sort({ scraptedAt: -1 })
-    .exec();
+    
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with that tag!");
   }
@@ -182,7 +182,7 @@ const getArtAndCulture = asynchandler(async (req, res) => {
     },
   })
     .sort({ scraptedAt: -1 })
-    .exec();
+ 
   if (!articles || articles.length === 0) {
     throw new ApiError(404, "No articles found with that tag!");
   }

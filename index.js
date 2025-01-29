@@ -12,20 +12,20 @@ Connect_Db()
       console.log(`Server Listening at : ${process.env.PORT}`);
     });
 
-    scrapeRisingNepal()
-      .then(() => {
-        console.log("Finished Scraping The Rising Nepal !!!");
-        scrapeKathmanduPost()
-          .then(() => {
-            console.log("Finished Scraping The Kathmandu Post !!!");
-          })
-          .catch((err) => {
-            console.log("ERROR IN SCRAPING The Kathmandu Post: ", err);
-          });
-      })
-      .catch((err) => {
-        console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
-      });
+    // scrapeRisingNepal()
+    //   .then(() => {
+    //     console.log("Finished Scraping The Rising Nepal !!!");
+    //     scrapeKathmanduPost()
+    //       .then(() => {
+    //         console.log("Finished Scraping The Kathmandu Post !!!");
+    //       })
+    //       .catch((err) => {
+    //         console.log("ERROR IN SCRAPING The Kathmandu Post: ", err);
+    //       });
+    //   })
+    //   .catch((err) => {
+    //     console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
+    //   });
   })
   .catch((err) => {
     console.log("ERROR IN DATABASE: ", err);
