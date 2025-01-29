@@ -135,8 +135,8 @@ export async function scrapeRisingNepal() {
             updatedTime: "NOT FOUND",
             updatedPlace: "NOT FOUND",
             articleText: article,
-            summary:aiSummary,
-            tag: "Politics",
+            summary: aiSummary,
+            tag: urlNames[j],
             source: "The Rising Nepal",
           });
 
