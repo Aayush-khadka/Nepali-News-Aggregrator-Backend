@@ -13,4 +13,15 @@ const getArticles = asynchandler(async (req, res) => {
     .json(new ApiResponse(200, articles, "Successfully retrieved articles!"));
 });
 
-export { getArticles };
+const getSpecificArticle = asynchandler(async (req, res) => {
+  const id = req.params.id;
+  const article = await Article.findById(id).exec();
+  if (!article || article.length === 0) {
+    throw new ApiError(404, "No article found!");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, article, "Successfully retrieved the article!"));
+});
+
+export { getArticles, getSpecificArticle };
