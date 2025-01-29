@@ -13,6 +13,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 #Random Trial Files
 scraper-with-ai-summary.js
 trial.js
+todo.txt
 # Runtime data
 pids
 *.pid
