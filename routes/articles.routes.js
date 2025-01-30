@@ -1,7 +1,7 @@
 import {
   getArticles,
   getSpecificArticle,
-} from "../controllers/articles.controllers.js";
+} from "../controllers/articles.controller.js";
 import { Router } from "express";
 
 const router = Router();
