@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import Connect_Db from "./db/index.js";
+import getTrending from "./Logic/trending.js";
 import { scrapeKathmanduPost } from "./Scraper/kathmanduPost.scraper.js";
 import { scrapeRisingNepal } from "./Scraper/risingNepal.scraper.js";
 import app from "./app.js";
@@ -12,19 +13,22 @@ Connect_Db()
       console.log(`Server Listening at : ${process.env.PORT}`);
     });
 
-    // scrapeRisingNepal()
+    // getTrending();
+
+    // scrapeKathmanduPost()
     //   .then(() => {
-    //     console.log("Finished Scraping The Rising Nepal !!!");
-    //     scrapeKathmanduPost()
+    //     console.log("Finished Scraping The Kathmandu Post!!!");
+
+    //     scrapeRisingNepal()
     //       .then(() => {
-    //         console.log("Finished Scraping The Kathmandu Post !!!");
+    //         console.log("Finished Scraping The Rising Nepal: !!!");
     //       })
     //       .catch((err) => {
-    //         console.log("ERROR IN SCRAPING The Kathmandu Post: ", err);
+    //         console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
     //       });
     //   })
     //   .catch((err) => {
-    //     console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
+    //     console.log("ERROR IN SCRAPING TThe Kathmandu Post ", err);
     //   });
   })
   .catch((err) => {
