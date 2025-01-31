@@ -1,5 +1,6 @@
 import puppeteer, { JSHandle } from "puppeteer";
 import { Article } from "../models/article.model.js";
+import { NewArticle } from "../models/newArticle.model.js";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
 
@@ -8,16 +9,16 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function scrapeRisingNepal() {
   const urlNames = [
+    "life-and-art",
+    "world",
+    "editorial",
+    "health",
+    "business",
+    "sports",
     "nation",
     "politics",
     "society",
     "science-tech",
-    "business",
-    "editorial",
-    "health",
-    "sports",
-    "life-and-art",
-    "world",
   ];
   for (let j = 0; j < urlNames.length; j++) {
     const url = `https://risingnepaldaily.com/categories/${urlNames[j]}`;
@@ -141,11 +142,18 @@ export async function scrapeRisingNepal() {
           });
 
           console.log("Article inserted!!!");
+
+          await NewArticle.create({
+            title: title,
+            source: "The Rising Nepal",
+            tag: urlNames[j],
+          });
         } catch (error) {
           console.error("Failed to insert article!!!", error);
         }
       } else {
         console.log("Article is Already Scraped!!!");
+        break;
       }
 
       await newPage.close();
