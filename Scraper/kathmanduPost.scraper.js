@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
 import { Article } from "../models/article.model.js";
+import { NewArticle } from "../models/newArticle.model.js";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
 
@@ -8,13 +9,13 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function scrapeKathmanduPost() {
   const urlNames = [
-    "national",
-    "politics",
-    "valley",
-    "opinion",
-    "money",
-    "sports",
     "art-culture",
+    "opinion",
+    "sports",
+    "money",
+    "valley",
+    "politics",
+    "national",
   ];
 
   for (let j = 0; j < urlNames.length; j++) {
@@ -150,11 +151,18 @@ export async function scrapeKathmanduPost() {
           });
 
           console.log("Article inserted!!!");
+
+          await NewArticle.create({
+            title: articleTitle,
+            source: "The Kathmandu Post",
+            tag: tag,
+          });
         } catch (error) {
           console.error("Failed to insert article!!!", error);
         }
       } else {
         console.log("Article is Already Scraped!!!");
+        break;
       }
 
       await newPage.close();
