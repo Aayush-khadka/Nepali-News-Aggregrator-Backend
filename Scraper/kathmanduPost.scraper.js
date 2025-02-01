@@ -104,6 +104,11 @@ export async function scrapeKathmanduPost() {
       });
 
       const findArticle = await Article.find({ title: articleTitle });
+
+      if (findArticle.length > 0) {
+        console.log("Article is Already Scraped!!!");
+        break;
+      }
       const chatCompletion = await groq.chat.completions.create({
         messages: [
           {
@@ -129,7 +134,6 @@ export async function scrapeKathmanduPost() {
         const content = chunk.choices[0]?.delta?.content || "";
         fullResponse += content;
       }
-
       const aiSummary = fullResponse.split("</think>")[1]?.trim();
 
       if (findArticle.length === 0) {
