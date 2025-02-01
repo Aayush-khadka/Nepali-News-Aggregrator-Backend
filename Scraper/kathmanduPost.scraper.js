@@ -18,6 +18,7 @@ export async function scrapeKathmanduPost() {
     "national",
   ];
 
+  await NewArticle.deleteMany({});
   for (let j = 0; j < urlNames.length; j++) {
     console.log(`Started Scraping The Category : ${urlNames[j]} `);
 
