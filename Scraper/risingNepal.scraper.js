@@ -95,6 +95,11 @@ export async function scrapeRisingNepal() {
           : "Unable to Find the author Link";
       });
       const findArticle = await Article.find({ title: title });
+
+      if (findArticle.length > 0) {
+        console.log("Article is Already Scraped!!!");
+        break;
+      }
       const chatCompletion = await groq.chat.completions.create({
         messages: [
           {
