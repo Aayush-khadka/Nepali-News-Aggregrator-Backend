@@ -66,7 +66,9 @@ export async function scrapeRisingNepal() {
 
       const articelImg = await newPage.evaluate(() => {
         const img = document.querySelector(".blog-banner img");
-        return img ? img.src : "No Image Found";
+        return img
+          ? img.src
+          : "https://res.cloudinary.com/dbdyrmfbc/image/upload/v1738399320/qxh5ezn8rcalsj2cwalw.jpg";
       });
       const publishedTime = await newPage.evaluate(() => {
         const publishedTime = document.querySelector(".mr-3.font-size-16 ");

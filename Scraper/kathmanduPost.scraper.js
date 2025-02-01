@@ -101,7 +101,9 @@ export async function scrapeKathmanduPost() {
 
       const articelImg = await newPage.evaluate(() => {
         const img = document.querySelector(".col-sm-8 img.img-responsive");
-        return img ? img.src : "No Image Found";
+        return img
+          ? img.src
+          : "https://res.cloudinary.com/dbdyrmfbc/image/upload/v1738399320/qxh5ezn8rcalsj2cwalw.jpg";
       });
 
       const findArticle = await Article.find({ title: articleTitle });
