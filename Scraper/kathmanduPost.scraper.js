@@ -3,6 +3,7 @@ import { Article } from "../models/article.model.js";
 import { NewArticle } from "../models/newArticle.model.js";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
+import chromium from "@sparticuz/chromium-min";
 
 dotenv.config();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -21,10 +22,16 @@ export async function scrapeKathmanduPost() {
   await NewArticle.deleteMany({});
   for (let j = 0; j < urlNames.length; j++) {
     console.log(`Started Scraping The Category : ${urlNames[j]} `);
+    const chromiumPack =
+      "https://github.com/Sparticuz/chromium/releases/download/v132.0.0/chromium-v132.0.0-pack.tar";
 
     const url = `https://kathmandupost.com/${urlNames[j]}`;
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      executablePath: await chromium.executablePath(chromiumPack),
+      headless: true,
+    });
     const page = await browser.newPage();
 
     await page.goto(url, { waitUntil: "domcontentloaded" });
