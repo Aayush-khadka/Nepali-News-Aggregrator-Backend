@@ -1,6 +1,5 @@
 import puppeteer from "puppeteer";
 import { Article } from "../models/article.model.js";
-import chromium from "@sparticuz/chromium-min";
 import { NewArticle } from "../models/newArticle.model.js";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
@@ -24,16 +23,8 @@ export async function scrapeKathmanduPost() {
     console.log(`Started Scraping The Category : ${urlNames[j]} `);
 
     const url = `https://kathmandupost.com/${urlNames[j]}`;
-    const executablePath = await chromium.executablePath(
-      "https://github.com/Sparticuz/chromium/releases/download/v132.0.0/chromium-v132.0.0-pack.tar"
-    );
-    const browser = await puppeteer.launch({
-      executablePath,
 
-      args: chromium.args,
-      headless: chromium.headless,
-      defaultViewport: chromium.defaultViewport,
-    });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     await page.goto(url, { waitUntil: "domcontentloaded" });
