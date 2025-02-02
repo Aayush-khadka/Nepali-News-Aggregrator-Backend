@@ -23,7 +23,10 @@ export async function scrapeRisingNepal() {
   for (let j = 0; j < urlNames.length; j++) {
     const url = `https://risingnepaldaily.com/categories/${urlNames[j]}`;
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: "new", // New headless mode for latest Puppeteer versions
+      args: ["--no-sandbox", "--disable-setuid-sandbox"], // Required for Vercel
+    });
     const page = await browser.newPage();
 
     await page.goto(url, { waitUntil: "domcontentloaded" });
