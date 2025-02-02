@@ -11,5 +11,12 @@
       "src": "/(.*)",
       "dest": "index.js"
     }
-  ]
+  ],
+
+  "functions": {
+    "api/scraper.js": {
+      "runtime": "nodejs18.x",
+      "memory": 512
+    }
+  }
 }
