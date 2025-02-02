@@ -3,7 +3,7 @@ import { Article } from "../models/article.model.js";
 import { NewArticle } from "../models/newArticle.model.js";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
-import chromium from "chrome-aws-lambda";
+import chromium from "@sparticuz/chromium-min";
 
 dotenv.config();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -23,11 +23,14 @@ export async function scrapeRisingNepal() {
   ];
   for (let j = 0; j < urlNames.length; j++) {
     const url = `https://risingnepaldaily.com/categories/${urlNames[j]}`;
-
+    const executablePath = await chromium.executablePath(
+      "https://github.com/Sparticuz/chromium/releases/download/v132.0.0/chromium-v132.0.0-pack.tar"
+    );
     const browser = await puppeteer.launch({
-      executablePath: await chromium.executablePath,
-      headless: true,
+      executablePath,
+
       args: chromium.args,
+      headless: chromium.headless,
       defaultViewport: chromium.defaultViewport,
     });
     const page = await browser.newPage();
