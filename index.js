@@ -18,20 +18,20 @@ Connect_Db()
     console.log("ERROR IN DATABASE: ", err);
   });
 
-cron.schedule("0 */4 * * *", () => {
-  scrapeKathmanduPost()
-    .then(() => {
-      console.log("Finished Scraping The Kathmandu Post!!!");
-      scrapeRisingNepal()
-        .then(() => {
-          console.log("Finished Scraping The Rising Nepal: !!!");
-        })
-        .catch((err) => {
-          console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
-        });
-      getTrending();
-    })
-    .catch((err) => {
-      console.log("ERROR IN SCRAPING TThe Kathmandu Post ", err);
-    });
-});
+// cron.schedule("0 */4 * * *", () => {
+scrapeKathmanduPost()
+  .then(() => {
+    console.log("Finished Scraping The Kathmandu Post!!!");
+    scrapeRisingNepal()
+      .then(() => {
+        console.log("Finished Scraping The Rising Nepal: !!!");
+      })
+      .catch((err) => {
+        console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
+      });
+    getTrending();
+  })
+  .catch((err) => {
+    console.log("ERROR IN SCRAPING TThe Kathmandu Post ", err);
+  });
+// });
