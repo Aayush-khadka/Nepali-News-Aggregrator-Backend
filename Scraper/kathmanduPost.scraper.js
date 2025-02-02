@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
 import { Article } from "../models/article.model.js";
+import chromium from "chrome-aws-lambda";
 import { NewArticle } from "../models/newArticle.model.js";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
@@ -25,8 +26,10 @@ export async function scrapeKathmanduPost() {
     const url = `https://kathmandupost.com/${urlNames[j]}`;
 
     const browser = await puppeteer.launch({
-      headless: 'new', // New headless mode for latest Puppeteer versions
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for Vercel
+      executablePath: await chromium.executablePath,
+      headless: true,
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
     });
     const page = await browser.newPage();
 
