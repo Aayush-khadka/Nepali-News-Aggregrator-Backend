@@ -25,11 +25,11 @@ scrapeKathmanduPost()
     scrapeRisingNepal()
       .then(() => {
         console.log("Finished Scraping The Rising Nepal: !!!");
+        getTrending();
       })
       .catch((err) => {
         console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
       });
-    getTrending();
   })
   .catch((err) => {
     console.log("ERROR IN SCRAPING TThe Kathmandu Post ", err);
