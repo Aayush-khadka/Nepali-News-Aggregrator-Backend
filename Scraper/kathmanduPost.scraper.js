@@ -5,7 +5,7 @@ import Groq from "groq-sdk";
 import dotenv from "dotenv";
 import chromium from "@sparticuz/chromium-min";
 
-dotenv.config();
+dotenv.config(); 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function scrapeKathmanduPost() {
