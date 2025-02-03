@@ -3,6 +3,7 @@ import { Article } from "../models/article.model.js";
 import { NewArticle } from "../models/newArticle.model.js";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
+import chromium from "@sparticuz/chromium-min";
 
 dotenv.config();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -24,14 +25,15 @@ export async function scrapeKathmanduPost() {
 
     const url = `https://kathmandupost.com/${urlNames[j]}`;
 
+    const executablePath = await chromium.executablePath(
+      "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
+    );
+
     const browser = await puppeteer.launch({
-      args: [
-        "--use-gl=angle",
-        "--use-angle=swiftshader",
-        "--single-process",
-        "--no-sandbox",
-      ],
-      headless: true,
+      executablePath,
+      args: chromium.args,
+      headless: chromium.headless,
+      defaultViewport: chromium.defaultViewport,
     });
     const page = await browser.newPage();
 

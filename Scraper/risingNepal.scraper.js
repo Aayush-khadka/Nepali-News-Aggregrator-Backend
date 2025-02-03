@@ -3,6 +3,7 @@ import { Article } from "../models/article.model.js";
 import { NewArticle } from "../models/newArticle.model.js";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
+import chromium from "@sparticuz/chromium-min";
 
 dotenv.config();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -24,13 +25,10 @@ export async function scrapeRisingNepal() {
     const url = `https://risingnepaldaily.com/categories/${urlNames[j]}`;
 
     const browser = await puppeteer.launch({
-      args: [
-        "--use-gl=angle",
-        "--use-angle=swiftshader",
-        "--single-process",
-        "--no-sandbox",
-      ],
-      headless: true,
+      executablePath,
+      args: chromium.args,
+      headless: chromium.headless,
+      defaultViewport: chromium.defaultViewport,
     });
     const page = await browser.newPage();
 
