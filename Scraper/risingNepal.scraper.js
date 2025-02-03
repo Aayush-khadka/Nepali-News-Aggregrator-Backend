@@ -21,6 +21,10 @@ export async function scrapeRisingNepal() {
     "society",
     "science-tech",
   ];
+
+  const executablePath = await chromium.executablePath(
+    "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
+  );
   for (let j = 0; j < urlNames.length; j++) {
     const url = `https://risingnepaldaily.com/categories/${urlNames[j]}`;
 

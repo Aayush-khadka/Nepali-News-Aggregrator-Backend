@@ -20,14 +20,13 @@ export async function scrapeKathmanduPost() {
   ];
 
   await NewArticle.deleteMany({});
+  const executablePath = await chromium.executablePath(
+    "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
+  );
   for (let j = 0; j < urlNames.length; j++) {
     console.log(`Started Scraping The Category : ${urlNames[j]} `);
 
     const url = `https://kathmandupost.com/${urlNames[j]}`;
-
-    const executablePath = await chromium.executablePath(
-      "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
-    );
 
     const browser = await puppeteer.launch({
       executablePath,
