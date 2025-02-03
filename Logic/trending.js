@@ -5,11 +5,20 @@ import { Trending } from "../models/trending.model.js";
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY2 });
 
 const getArticleTitles = async () => {
+  const prevTrendingArticles = await Trending.find({}, { title: 1 });
+  const prevTrendingTitles = prevTrendingArticles.map(
+    (article) => article.title
+  );
+
+  await Trending.deleteMany({}).then(() => {
+    console.log("Deleted The Previous Trending List!!!");
+  });
+
   const articles = await NewArticle.find({}, { title: 1 });
   const titles = articles.map((article) => article.title);
 
   const prompt = `
-  Analyze the following news headlines and return ONLY a list of the top 10 most trending article titles. Do not include any additional text, explanations, or JSON formatting. Just return the titles as a plain list dont even say here is the list just give me the list remove the numbering before the article title but make it so it is in order of the score.
+  Analyze the following news headlines and return ONLY a list of the top 10 most trending article titles. there is also the list of previous trending articles if there is any updates to that or that news is still very good for trending you can still put the articles title in new trending Do not include any additional text, explanations, or JSON formatting. Just return the titles as a plain list dont even say here is the list just give me the list remove the numbering before the article title but make it so it is in order of the score.
 
  **Priority Order**:
  - **Highest Priority**: Nepal-related news, politics, and national news.
@@ -22,6 +31,9 @@ const getArticleTitles = async () => {
 
  News Titles:
  ${titles}
+
+ Previous Trending Titles:
+ ${prevTrendingTitles}
  `;
   try {
     const response = await groq.chat.completions.create({
