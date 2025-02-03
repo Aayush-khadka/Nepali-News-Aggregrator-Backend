@@ -25,7 +25,7 @@ export async function scrapeRisingNepal() {
   let executablePath;
   try {
     executablePath = await chromium.executablePath(
-      "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
+      "https://github.com/Sparticuz/chromium/releases/download/v132.0.0/chromium-v132.0.0-pack.tar"
     );
   } catch (error) {
     console.error("Failed to fetch Chromium executable path:", error);
