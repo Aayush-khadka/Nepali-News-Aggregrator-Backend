@@ -26,15 +26,12 @@ export async function scrapeKathmanduPost() {
 
     const browser = await puppeteer.launch({
       args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
+        "--use-gl=angle",
+        "--use-angle=swiftshader",
         "--single-process",
-        "--no-zygote",
+        "--no-sandbox",
       ],
-      executablePath:
-        process.env.NODE_ENV === "production"
-          ? process.env.PUPPETEER_EXECUTABLE_PATH
-          : puppeteer.executablePath(),
+      headless: true,
     });
     const page = await browser.newPage();
 
