@@ -44,7 +44,7 @@ const articleSchema = new Schema({
     required: true,
   },
   tag: {
-    type: String,
+    type: Array,
     required: true,
     trim: true,
   },
