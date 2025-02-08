@@ -127,6 +127,7 @@ export async function scrapeKathmanduPost() {
       }
 
       const aiSummary = await fetchSummary(articleText);
+      const defaultTag = category.toString();
 
       try {
         await Article.create({
@@ -141,7 +142,7 @@ export async function scrapeKathmanduPost() {
           updatedPlace: publishedTimes[2],
           articleText,
           summary: aiSummary,
-          tag: [tag.toLowerCase(), "national"],
+          tag: [tag.toLowerCase(), defaultTag],
           source: "The Kathmandu Post",
         });
         console.log("Article inserted into database!");
