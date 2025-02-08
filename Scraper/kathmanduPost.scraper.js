@@ -141,7 +141,7 @@ export async function scrapeKathmanduPost() {
           updatedPlace: publishedTimes[2],
           articleText,
           summary: aiSummary,
-          tag: [tag, "national"],
+          tag: [tag.toLowerCase(), "national"],
           source: "The Kathmandu Post",
         });
         console.log("Article inserted into database!");
