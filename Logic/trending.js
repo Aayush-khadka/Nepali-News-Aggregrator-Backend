@@ -28,6 +28,7 @@ const getArticleTitles = async () => {
  **Additional Requirements**:
  - Ensure the list is a good mix of all categories.
  - The second news story in the list must be an international story.
+ - dont have two or more  articles having similar stories try avoiding titles that are similar 
 
  News Titles:
  ${titles}
