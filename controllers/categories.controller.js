@@ -61,7 +61,9 @@ const getNational = asynchandler(async (req, res) => {
 });
 
 const getScienceAndTech = asynchandler(async (req, res) => {
-  const articles = await Article.find({ tag: { $in: ["science-tech"] } }).sort({
+  const articles = await Article.find({
+    tag: { $in: ["science-tech", "science-technology"] },
+  }).sort({
     scraptedAt: -1,
   });
 

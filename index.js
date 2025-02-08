@@ -32,6 +32,6 @@ scrapeKathmanduPost()
       });
   })
   .catch((err) => {
-    console.log("ERROR IN SCRAPING TThe Kathmandu Post ", err);
+    console.log("ERROR IN SCRAPING The Kathmandu Post ", err);
   });
 // });

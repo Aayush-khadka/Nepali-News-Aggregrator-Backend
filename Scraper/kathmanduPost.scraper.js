@@ -10,8 +10,13 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const urlNames = [
   "art-culture",
   "opinion",
+  "investigations",
   "sports",
+  "climate-environment",
   "money",
+  "world",
+  "health",
+  "science-technology",
   "valley",
   "politics",
   "national",
@@ -64,18 +69,21 @@ async function fetchSummary(articleContent) {
   const chatCompletion = await groq.chat.completions.create({
     messages: [
       {
-        role: "user",
+        role: "system",
         content:
-          "Can you provide a brief, high-quality summary of this article in 2-3 sentences, highlighting the main points?",
+          "You are an AI assistant that summarizes news articles in 2-3 sentences, focusing on the main points.",
       },
       {
-        role: "assistant",
-        content: `<think>\nOkay, so the user is asking for a summary of this article in 2-3 sentences. They want it to be high-quality and highlight the main points. First, I need to read through the article carefully to understand what's going on. ${articleContent} `,
+        role: "user",
+        content: `Here is the article to summarize:\n\n${articleContent.substring(
+          0,
+          4000
+        )}`, // Truncate to stay within limits
       },
     ],
     model: "deepseek-r1-distill-llama-70b",
     temperature: 0.6,
-    max_completion_tokens: 4096,
+    max_completion_tokens: 512, // Reduce completion tokens to avoid exceeding the limit
     top_p: 0.95,
     stream: true,
     stop: null,
@@ -90,8 +98,6 @@ async function fetchSummary(articleContent) {
 }
 
 export async function scrapeKathmanduPost() {
-  await NewArticle.deleteMany({});
-
   for (const category of urlNames) {
     console.log(`Started Scraping The Category: ${category}`);
     const url = `https://kathmandupost.com/${category}`;
