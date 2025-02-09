@@ -11,6 +11,7 @@ const getArticlesFromKathmanduPost = asynchandler(async (req, res) => {
   articles.result = await Article.find({
     source: "The Kathmandu Post",
   })
+    .sort({ scraptedAt: -1 })
     .skip((page - 1) * limit)
     .limit(limit);
 
@@ -49,6 +50,7 @@ const getArticlesFromRisingNepal = asynchandler(async (req, res) => {
   articles.result = await Article.find({
     source: "The Rising Nepal",
   })
+    .sort({ scraptedAt: -1 })
     .skip((page - 1) * limit)
     .limit(limit);
   const totalDocuments = await Article.countDocuments();
