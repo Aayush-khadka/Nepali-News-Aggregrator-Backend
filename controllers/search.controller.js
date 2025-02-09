@@ -28,13 +28,16 @@ const searchArticles = asynchandler(async (req, res) => {
       },
     },
     {
-      $sort: { searchScore: -1 },
+      $sort: { searchScore: -1, publishedAt: -1 },
     },
     {
       $limit: 10,
     },
   ]);
 
+  if (!results) {
+    throw new ApiError(500, "Failed to Query Search!!!");
+  }
   return res
     .status(200)
     .json(new ApiResponse(200, results, "Successfully fetched Data!"));
