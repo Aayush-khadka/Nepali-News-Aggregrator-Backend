@@ -102,7 +102,7 @@ const getBusiness = asynchandler(async (req, res) => {
 
 const getOpinion = asynchandler(async (req, res) => {
   const articles = await Article.find({
-    tag: { $in: ["editorial", "Editorial"] },
+    tag: { $in: ["editorial", "Editorial", "investigations"] },
   }).sort({ scraptedAt: -1 });
 
   if (!articles || articles.length === 0) {
@@ -121,7 +121,7 @@ const getOpinion = asynchandler(async (req, res) => {
 
 const getSports = asynchandler(async (req, res) => {
   const articles = await Article.find({
-    tag: { $in: ["sports", "Sports"] },
+    tag: { $in: ["sports"] },
   }).sort({ scraptedAt: -1 });
 
   if (!articles || articles.length === 0) {
@@ -139,7 +139,9 @@ const getSports = asynchandler(async (req, res) => {
 });
 
 const getHealth = asynchandler(async (req, res) => {
-  const articles = await Article.find({ tag: { $in: ["health"] } }).sort({
+  const articles = await Article.find({
+    tag: { $in: ["health", "climate-environment"] },
+  }).sort({
     scraptedAt: -1,
   });
 
