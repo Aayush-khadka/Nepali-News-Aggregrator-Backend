@@ -4,7 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 
 const getPolitics = asynchandler(async (req, res) => {
-  const articles = await Article.find({ tag: "Politics" }).sort({
+  const articles = await Article.find({ tag: "politics" }).sort({
     scraptedAt: -1,
   });
 
@@ -24,7 +24,7 @@ const getPolitics = asynchandler(async (req, res) => {
 
 const getSociety = asynchandler(async (req, res) => {
   const articles = await Article.find({
-    tag: { $in: ["society", "Kathmandu", "Lalitpur", "Bhaktapur"] },
+    tag: { $in: ["society", "kathmandu", "Lalitpur", "Bhaktapur"] },
   }).sort({ scraptedAt: -1 });
 
   if (!articles || articles.length === 0) {
