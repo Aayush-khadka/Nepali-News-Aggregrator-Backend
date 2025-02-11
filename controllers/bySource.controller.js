@@ -5,7 +5,7 @@ import { ApiError } from "../utils/ApiError.js";
 
 const getArticlesFromKathmanduPost = asynchandler(async (req, res) => {
   const page = parseInt(req.params.page) || 1;
-  const limit = parseInt(req.params.limit) || 10;
+  const limit = parseInt(req.params.limit) || 1000;
 
   const articles = {};
   articles.result = await Article.find({
@@ -45,7 +45,7 @@ const getArticlesFromKathmanduPost = asynchandler(async (req, res) => {
 
 const getArticlesFromRisingNepal = asynchandler(async (req, res) => {
   const page = parseInt(req.params.page) || 1;
-  const limit = parseInt(req.params.limit) || 10;
+  const limit = parseInt(req.params.limit) || 1000;
   const articles = {};
   articles.result = await Article.find({
     source: "The Rising Nepal",
