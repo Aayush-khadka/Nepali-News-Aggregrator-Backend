@@ -28,7 +28,7 @@ const searchArticles = asynchandler(async (req, res) => {
       },
     },
     {
-      $sort: { searchScore: -1, publishedAt: -1 },
+      $sort: { publishedAt: -1, searchScore: -1 },
     },
     {
       $limit: 10,
