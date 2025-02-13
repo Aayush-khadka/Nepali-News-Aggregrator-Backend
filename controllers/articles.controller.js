@@ -46,4 +46,16 @@ const getSpecificArticle = asynchandler(async (req, res) => {
     .json(new ApiResponse(200, article, "Successfully retrieved the article!"));
 });
 
-export { getLatestArticles, getSpecificArticle };
+const getArticleCount = asynchandler(async (req, res) => {
+  const count = await Article.countDocuments();
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        count,
+        "Sucessfully got the Total number of Articles!!"
+      )
+    );
+});
+export { getLatestArticles, getSpecificArticle, getArticleCount };

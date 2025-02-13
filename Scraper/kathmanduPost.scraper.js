@@ -65,36 +65,68 @@ async function fetchArticleData(page, articleUrl) {
   return articleData;
 }
 
-async function fetchSummary(articleContent) {
-  const chatCompletion = await groq.chat.completions.create({
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are an AI assistant that summarizes news articles in 2-3 sentences, focusing on the main points.",
-      },
-      {
-        role: "user",
-        content: `Here is the article to summarize:\n\n${articleContent.substring(
-          0,
-          4000
-        )}`, // Truncate to stay within limits
-      },
-    ],
-    model: "deepseek-r1-distill-llama-70b",
-    temperature: 0.6,
-    max_completion_tokens: 512, // Reduce completion tokens to avoid exceeding the limit
-    top_p: 0.95,
-    stream: true,
-    stop: null,
-  });
+async function fetchSummary(articleContent, maxRetries = 3) {
+  let retryCount = 0;
 
-  let fullResponse = "";
-  for await (const chunk of chatCompletion) {
-    const content = chunk.choices[0]?.delta?.content || "";
-    fullResponse += content;
+  while (retryCount < maxRetries) {
+    try {
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a highly skilled AI assistant specializing in summarizing news articles. Your summaries must be concise (2-3 sentences), clear, informative, and accurately reflect the main points of the article, focusing on the 'who, what, when, where, and why' of the story. Avoid including opinions, speculation, or unnecessary details. Provide only the summary itself, without any introductory or concluding phrases.",
+          },
+          {
+            role: "user",
+            content: `Please provide a concise and informative summary of the following news article, focusing on the key facts:\n\n${articleContent.substring(
+              0,
+              4000
+            )}`,
+          },
+        ],
+        model: "deepseek-r1-distill-llama-70b",
+        temperature: 0.6,
+        max_completion_tokens: 512,
+        top_p: 0.95,
+        stream: true,
+        stop: null,
+      });
+
+      let fullResponse = "";
+      for await (const chunk of chatCompletion) {
+        const content = chunk.choices[0]?.delta?.content || "";
+        fullResponse += content;
+      }
+
+      let summary = fullResponse.split("</think>")[1]?.trim();
+
+      if (summary) {
+        return summary; // Success! Return the summary
+      } else {
+        console.warn(
+          `Summary generation failed (attempt ${
+            retryCount + 1
+          }): Empty summary. Retrying...`
+        );
+        retryCount++;
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second before retrying
+      }
+    } catch (error) {
+      console.error(
+        `Error generating summary (attempt ${
+          retryCount + 1
+        }): ${error}. Retrying...`
+      );
+      retryCount++;
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second before retrying
+    }
   }
-  return fullResponse.split("</think>")[1]?.trim();
+
+  console.error(
+    `Failed to generate summary after ${maxRetries} attempts.  Returning fallback.`
+  );
+  return "Summary not available."; // Fallback after all retries fail
 }
 
 export async function scrapeKathmanduPost() {
