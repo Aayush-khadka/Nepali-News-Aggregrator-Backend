@@ -18,24 +18,25 @@ const getArticleTitles = async () => {
   const titles = articles.map((article) => article.title);
 
   const prompt = `
-  Analyze the following news headlines and return ONLY a list of the top 10 most trending article titles. there is also the list of previous trending articles if there is any updates to that or that news is still very good for trending you can still put the articles title in new trending Do not include any additional text, explanations, or JSON formatting. Just return the titles as a plain list dont even say here is the list just give me the list remove the numbering before the article title but make it so it is in order of the score.
+Analyze the following news headlines and return ONLY a list of the top 10 most trending article titles, ordered by relevance and impact. Do not include any additional text, explanations, or JSON formatting. Just return the titles as a plain list, with no numbering or introductory phrases.
 
- **Priority Order**:
- - **Highest Priority**: Nepal-related news, politics, and national news.
- - **Medium Priority**: International news and money-related topics.
- - **Lowest Priority**: Life, art, and entertainment-related topics.
+**Prioritization and Selection Criteria:**
 
- **Additional Requirements**:
- - Ensure the list is a good mix of all categories.
- - prority to accidents or news that are suprising
- - dont have two or more  articles having similar stories try avoiding titles that are similar 
+1.  **Nepal Focus (Highest Weight):** Prioritize news directly impacting Nepal, its politics, or its national affairs.
+2.  **Impact and Urgency:** Favor articles about significant events, accidents, surprising developments, or breaking news.
+3.  **Relevance and Timeliness:** Consider the current news cycle and select articles that are most relevant to current discussions and events.
+4.  **Category Diversity:** Ensure the final list represents a diverse range of news categories (politics, business, international, etc.). Avoid over-representation of any single category.
+5.  **Novelty and Uniqueness:** Avoid including articles with very similar titles or covering the same core story from the same angle. Aim for unique perspectives and developments.
+6.  **Trending Potential:** Evaluate each article's potential to generate discussion and interest based on its headline and subject matter.
+7.  **Previous Trending Articles (Context):** Consider the following list of previously trending articles. Include them in the new list ONLY if they remain highly relevant and impactful due to ongoing developments or sustained interest.
 
- News Titles:
- ${titles}
+Previous Trending Titles:
+${prevTrendingTitles}
 
- Previous Trending Titles:
- ${prevTrendingTitles}
- `;
+News Titles:
+${titles}
+`;
+
   try {
     const response = await groq.chat.completions.create({
       model: "llama3-8b-8192",
@@ -50,11 +51,15 @@ const getArticleTitles = async () => {
 
     console.log(trendingTitles);
 
-    for (let i = 0; i < 10; i++) {
-      await Trending.create({
-        title: trendingTitles[i],
-      });
-    }
+    // Validate trendingTitles array length before inserting
+    const validTrendingTitles = trendingTitles.slice(0, 10); // Ensure only 10 are used
+
+    const trendingDocs = validTrendingTitles.map((title, index) => ({
+      title: title,
+      order: index + 1, // Add an 'order' field
+    }));
+
+    await Trending.insertMany(trendingDocs);
 
     await NewArticle.deleteMany({}).then(() => {
       console.log("Deleted all the Titles!!!");

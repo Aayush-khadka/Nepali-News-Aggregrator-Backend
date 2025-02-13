@@ -4,7 +4,10 @@ import { asynchandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const getTrending = asynchandler(async (req, res) => {
-  const trendingTitles = await Trending.find({}, { title: 1 }).lean();
+  const trendingTitles = await Trending.find({}, { title: 1, order: 1 })
+    .sort({ order: 1 }) // Sort by the 'order' field
+    .lean();
+
   if (!trendingTitles.length) {
     return res
       .status(200)
@@ -14,6 +17,13 @@ const getTrending = asynchandler(async (req, res) => {
   const titles = trendingTitles.map((article) => article.title);
 
   let trendingArticles = await Article.find({ title: { $in: titles } }).lean();
+
+  // Sort trendingArticles based on the order in trendingTitles
+  trendingArticles.sort((a, b) => {
+    const indexA = titles.indexOf(a.title);
+    const indexB = titles.indexOf(b.title);
+    return indexA - indexB;
+  });
 
   if (trendingArticles.length < 10) {
     const additionalArticles = await Article.find({ title: { $nin: titles } })

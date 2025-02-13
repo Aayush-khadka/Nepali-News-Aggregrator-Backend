@@ -43,7 +43,7 @@ const getSociety = asynchandler(async (req, res) => {
 
 const getNational = asynchandler(async (req, res) => {
   const articles = await Article.find({
-    tag: { $in: ["National", "nation"] },
+    tag: { $in: ["national", "nation"] },
   }).sort({ scraptedAt: -1 });
 
   if (!articles || articles.length === 0) {
@@ -83,7 +83,7 @@ const getScienceAndTech = asynchandler(async (req, res) => {
 
 const getBusiness = asynchandler(async (req, res) => {
   const articles = await Article.find({
-    tag: { $in: ["Money", "business"] },
+    tag: { $in: ["money", "business"] },
   }).sort({ scraptedAt: -1 });
 
   if (!articles || articles.length === 0) {
