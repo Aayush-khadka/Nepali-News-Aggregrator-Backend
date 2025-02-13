@@ -14,7 +14,7 @@ const searchArticles = asynchandler(async (req, res) => {
   const results = await Article.aggregate([
     {
       $search: {
-        index: "news-search",
+        index: "News-Aggregrator",
         text: {
           query: searchQuery,
           path: ["title", "articleText"],
