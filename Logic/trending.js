@@ -14,7 +14,7 @@ const getArticleTitles = async () => {
     console.log("Deleted The Previous Trending List!!!");
   });
 
-  const articles = await NewArticle.find({}, { title: 1 });
+  const articles = await NewArticle.find({}, { title: 1, publishedTime: 1 });
   const titles = articles.map((article) => article.title);
 
   const prompt = `
@@ -28,7 +28,8 @@ Analyze the following news headlines and return ONLY a list of the top 10 most t
 4.  **Category Diversity:** Ensure the final list represents a diverse range of news categories (politics, business, international, etc.). Avoid over-representation of any single category.
 5.  **Novelty and Uniqueness:** Avoid including articles with very similar titles or covering the same core story from the same angle. Aim for unique perspectives and developments.
 6.  **Trending Potential:** Evaluate each article's potential to generate discussion and interest based on its headline and subject matter.
-7.  **Previous Trending Articles (Context):** Consider the following list of previously trending articles. Include them in the new list ONLY if they remain highly relevant and impactful due to ongoing developments or sustained interest.
+7.  **Previous Trending Articles (Context):** Consider the following list of previously trending articles. Include them in the new list ONLY if they remain highly relevant and impactful due to ongoing developments or sustained interest try to not include that much unless enough articles are not met.
+8. ** News older than 1 days should not make it to the trending**
 
 Previous Trending Titles:
 ${prevTrendingTitles}

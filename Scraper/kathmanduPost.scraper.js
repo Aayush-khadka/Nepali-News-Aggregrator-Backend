@@ -189,6 +189,7 @@ export async function scrapeKathmanduPost() {
           title,
           source: "The Kathmandu Post",
           tag,
+          publishedTime: publishedTimes[0],
         });
       } catch (error) {
         console.error("Failed to insert article:", error);

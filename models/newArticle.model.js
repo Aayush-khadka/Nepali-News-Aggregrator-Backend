@@ -13,6 +13,9 @@ const newArticleSchema = new Schema({
     type: String,
     required: true,
   },
+  publishedTime: {
+    type: String,
+  },
 });
 
 export const NewArticle = mongoose.model("NewArticle", newArticleSchema);
