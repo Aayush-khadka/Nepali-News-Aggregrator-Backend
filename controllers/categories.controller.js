@@ -22,6 +22,47 @@ const getPolitics = asynchandler(async (req, res) => {
     );
 });
 
+const getInvestigations = asynchandler(async (req, res) => {
+  const articles = await Article.find({ tag: "investigations" }).sort({
+    scraptedAt: -1,
+  });
+
+  if (!articles || articles.length === 0) {
+    throw new ApiError(404, "No articles found with 'investigations' tag!");
+  }
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        articles,
+        "Successfully retrieved articles with 'investigations' tag!"
+      )
+    );
+});
+
+const getClimateAndEnviroment = asynchandler(async (req, res) => {
+  const articles = await Article.find({ tag: "climate-environment" }).sort({
+    scraptedAt: -1,
+  });
+
+  if (!articles || articles.length === 0) {
+    throw new ApiError(
+      404,
+      "No articles found with 'climate-environment' tag!"
+    );
+  }
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        articles,
+        "Successfully retrieved articles with 'climate-environment' tag!"
+      )
+    );
+});
+
 const getSociety = asynchandler(async (req, res) => {
   const articles = await Article.find({
     tag: { $in: ["society", "kathmandu", "Lalitpur", "Bhaktapur"] },
@@ -208,4 +249,6 @@ export {
   getHealth,
   getWorld,
   getArtAndCulture,
+  getClimateAndEnviroment,
+  getInvestigations,
 };

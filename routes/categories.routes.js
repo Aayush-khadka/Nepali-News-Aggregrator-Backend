@@ -2,7 +2,9 @@ import { Router } from "express";
 import {
   getArtAndCulture,
   getBusiness,
+  getClimateAndEnviroment,
   getHealth,
+  getInvestigations,
   getNational,
   getOpinion,
   getPolitics,
@@ -24,5 +26,7 @@ router.route("/opinion").get(getOpinion);
 router.route("/health").get(getHealth);
 router.route("/world").get(getWorld);
 router.route("/art-culture").get(getArtAndCulture);
+router.route("/climate-enviroment").get(getClimateAndEnviroment);
+router.route("/investigations").get(getInvestigations);
 
 export default router;
