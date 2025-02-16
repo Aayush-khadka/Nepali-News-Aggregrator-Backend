@@ -5,7 +5,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 const getTrending = asynchandler(async (req, res) => {
   const trendingTitles = await Trending.find({}, { title: 1, order: 1 })
-    .sort({ order: 1 }) // Sort by the 'order' field
+    .sort({ order: 1 })
     .lean();
 
   if (!trendingTitles.length) {
@@ -18,7 +18,6 @@ const getTrending = asynchandler(async (req, res) => {
 
   let trendingArticles = await Article.find({ title: { $in: titles } }).lean();
 
-  // Sort trendingArticles based on the order in trendingTitles
   trendingArticles.sort((a, b) => {
     const indexA = titles.indexOf(a.title);
     const indexB = titles.indexOf(b.title);

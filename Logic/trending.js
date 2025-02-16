@@ -52,12 +52,11 @@ ${titles}
 
     console.log(trendingTitles);
 
-    // Validate trendingTitles array length before inserting
-    const validTrendingTitles = trendingTitles.slice(0, 10); // Ensure only 10 are used
+    const validTrendingTitles = trendingTitles.slice(0, 10);
 
     const trendingDocs = validTrendingTitles.map((title, index) => ({
       title: title,
-      order: index + 1, // Add an 'order' field
+      order: index + 1,
     }));
 
     await Trending.insertMany(trendingDocs);

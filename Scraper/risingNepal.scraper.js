@@ -3,6 +3,7 @@ import { Article } from "../models/article.model.js";
 import { NewArticle } from "../models/newArticle.model.js";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
+import dayjs from "dayjs";
 
 dotenv.config();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -99,7 +100,7 @@ async function fetchSummary(articleContent, maxRetries = 3) {
       let summary = fullResponse.split("</think>")[1]?.trim();
 
       if (summary) {
-        return summary; // Success! Return the summary
+        return summary;
       } else {
         console.warn(
           `Summary generation failed (attempt ${
@@ -107,7 +108,7 @@ async function fetchSummary(articleContent, maxRetries = 3) {
           }): Empty summary. Retrying...`
         );
         retryCount++;
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second before retrying
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     } catch (error) {
       console.error(
@@ -116,14 +117,14 @@ async function fetchSummary(articleContent, maxRetries = 3) {
         }): ${error}. Retrying...`
       );
       retryCount++;
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second before retrying
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   }
 
   console.error(
     `Failed to generate summary after ${maxRetries} attempts.  Returning fallback.`
   );
-  return "Summary not available."; // Fallback after all retries fail
+  return "Summary not available.";
 }
 
 export async function scrapeRisingNepal() {
@@ -161,6 +162,10 @@ export async function scrapeRisingNepal() {
 
       const aiSummary = await fetchSummary(articleText);
 
+      const inputDate = publishedTime;
+
+      const newTime = dayjs(inputDate, "ddd,DD MMMM YYYY").format("YYYY-MM-DD");
+
       try {
         await Article.create({
           title,
@@ -169,7 +174,7 @@ export async function scrapeRisingNepal() {
           authorProfileLink: authorLink,
           articleLink: articleUrl,
           articleImage: imageUrl,
-          publishedTime,
+          publishedTime: newTime,
           updatedTime: "NOT FOUND",
           updatedPlace: "NOT FOUND",
           articleText,

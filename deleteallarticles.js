@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Article } from "./models/article.model.js"; // Ensure the correct path
+import { Article } from "./models/article.model.js";
 
 const MONGO_URI =
   "mongodb+srv://Aayush:Aayushpass123@nepali-news-aggregrator.iexah.mongodb.net/?retryWrites=true&w=majority&appName=Nepali-News-Aggregrator"; // Replace with your actual MongoDB URI
