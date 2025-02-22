@@ -3,7 +3,7 @@ import { Trending } from "../models/trending.model.js";
 import { asynchandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const getTrending = asynchandler(async (req, res) => {
+const getTrendingArticles = asynchandler(async (req, res) => {
   const trendingTitles = await Trending.find({}, { title: 1, order: 1 })
     .sort({ order: 1 })
     .lean();
@@ -14,7 +14,9 @@ const getTrending = asynchandler(async (req, res) => {
       .json(new ApiResponse(200, [], "No trending articles found!"));
   }
 
-  const titles = trendingTitles.map((article) => article.title);
+  const titles = trendingTitles.map((article) =>
+    article.title.replace(/^\d+\.\s*/, "")
+  );
 
   let trendingArticles = await Article.find({ title: { $in: titles } }).lean();
 
@@ -24,14 +26,7 @@ const getTrending = asynchandler(async (req, res) => {
     return indexA - indexB;
   });
 
-  if (trendingArticles.length < 10) {
-    const additionalArticles = await Article.find({ title: { $nin: titles } })
-      .sort({ createdAt: -1 })
-      .limit(10 - trendingArticles.length)
-      .lean();
-
-    trendingArticles = [...trendingArticles, ...additionalArticles];
-  }
+  trendingArticles = [...trendingArticles];
 
   return res
     .status(200)
@@ -44,4 +39,4 @@ const getTrending = asynchandler(async (req, res) => {
     );
 });
 
-export { getTrending };
+export { getTrendingArticles };
