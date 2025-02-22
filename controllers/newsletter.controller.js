@@ -2,39 +2,90 @@ import { APIError } from "groq-sdk";
 import { Article } from "../models/article.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asynchandler } from "../utils/asyncHandler.js";
+import { SignupNewsletter } from "../models/signup.newsletter.model.js";
+import { sendEmail } from "../utils/sendEmail.js";
+import generateVerificationToken from "../utils/generatetoken.js";
+import dotenv from "dotenv";
+import { ApiError } from "../utils/ApiError.js";
 
-const getNewsletter = asynchandler(async (req, res) => {
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-  const newOneWeekAgo = oneWeekAgo.toISOString().split("T");
-  const olddate = newOneWeekAgo[0];
+dotenv.config();
 
-  const today = new Date();
-  const newtoday = today.toISOString().split("T");
-  const datetoday = newtoday[0];
+const signupForNewsLetter = asynchandler(async (req, res) => {
+  const email = req.body.email;
+  const interests = req.body.interests;
+
+  const checkIfAlreadySignedUP = await SignupNewsletter.findOne({ email });
+  if (checkIfAlreadySignedUP) {
+    throw new APIError(500, "The Email is already Signed UP!!!");
+  }
+
+  const token = generateVerificationToken();
+  const addedemail = new SignupNewsletter({
+    email,
+    interests,
+    verificationToken: token,
+  });
+
+  await addedemail.save();
+
+  const verificationLink = `http://localhost:4000/api/v1/newsletter/verify?token=${token}`;
+
+  const subject = "Email Verification for Newsletter";
+  const text = `Please click the following link to verify your email: ${verificationLink}`;
+
+  await sendEmail(email, subject, "verification", {
+    verificationLink: verificationLink,
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Verification Link Sent to Email!!"));
+});
+
+const verify = asynchandler(async (req, res) => {
+  const { token } = req.query;
 
   try {
-    const articles = await Article.find(
-      {
-        publishedTime: { $gte: olddate, $lte: datetoday },
-        tag: { $in: ["national", "politics", "world", "sports"] },
-      },
-      { title: 1, articleText: 1, publishedTime: 1, tag: 1 }
-    );
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          articles,
-          "Successfully fetched the data from a week ago!"
-        )
-      );
+    const user = await SignupNewsletter.findOne({ verificationToken: token });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired token." });
+    }
+
+    user.isVerified = true;
+    user.verificationToken = null;
+    await user.save();
+
+    return res.status(200).json({
+      status: 200,
+      message: "Successfully Verified Email!!",
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json(new APIError(500, "Failed to get the articles!"));
+    console.error("Error during email verification:", error);
+    return res.status(500).json({
+      status: 500,
+      message: "Failed to Verify Email!!",
+    });
   }
 });
 
-export { getNewsletter };
+const unsubscribeNewsletter = asynchandler(async (req, res) => {
+  const email = req.body.email;
+
+  const user = SignupNewsletter.findOne({ email: email });
+  if (!user) {
+    throw new ApiError(500, "User is not Signed UP!!!");
+  }
+
+  try {
+    await SignupNewsletter.findOneAndDelete({ email: email });
+  } catch (error) {
+    throw new ApiError(500, "unable to Unsubscribe!!!");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The user Unsubscribed Sucessfully!!!"));
+});
+
+export { signupForNewsLetter, verify, unsubscribeNewsletter };
