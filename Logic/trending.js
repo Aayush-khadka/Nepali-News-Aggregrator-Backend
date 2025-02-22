@@ -4,7 +4,7 @@ import { NewArticle } from "../models/newArticle.model.js";
 import { Trending } from "../models/trending.model.js";
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY2 });
 
-const getArticleTitles = async () => {
+const getTrending = async () => {
   const prevTrendingArticles = await Trending.find({}, { title: 1 });
   const prevTrendingTitles = prevTrendingArticles.map(
     (article) => article.title
@@ -28,19 +28,21 @@ Analyze the following news headlines and return ONLY a list of the top 10 most t
 4.  **Category Diversity:** Ensure the final list represents a diverse range of news categories (politics, business, international, etc.). Avoid over-representation of any single category.
 5.  **Novelty and Uniqueness:** Avoid including articles with very similar titles or covering the same core story from the same angle. Aim for unique perspectives and developments.
 6.  **Trending Potential:** Evaluate each article's potential to generate discussion and interest based on its headline and subject matter.
-7.  **Previous Trending Articles (Context):** Consider the following list of previously trending articles. Include them in the new list ONLY if they remain highly relevant and impactful due to ongoing developments or sustained interest try to not include that much unless enough articles are not met.
-8. ** News older than 1 days should not make it to the trending**
+7. ** News older than 1 days should not make it to the trending**
+8. **Dont add things other than the titles not even the numbering in the response.**
 
-Previous Trending Titles:
-${prevTrendingTitles}
+ 
 
 News Titles:
 ${titles}
+
+Previous Trending:
+${prevTrendingArticles}
 `;
 
   try {
     const response = await groq.chat.completions.create({
-      model: "llama3-8b-8192",
+      model: "llama-3.2-3b-preview",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.3,
     });
@@ -72,4 +74,4 @@ ${titles}
   }
 };
 
-export default getArticleTitles;
+export default getTrending;
