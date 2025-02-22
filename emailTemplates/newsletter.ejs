@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Samachar News Digest</title>
+    <!--[if mso]>
+    <noscript>
+        <xml>
+            <o:OfficeDocumentSettings>
+                <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+    </noscript>
+    <![endif]-->
+    <style>
+        /* Base reset styles remain the same */
+        body, #bodyTable, #bodyCell {
+            height: 100% !important;
+            width: 100% !important;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            background-color: #F1F5F9;
+        }
+
+        /* Content formatting styles */
+        .content-text {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #334155;
+        }
+
+        .content-text p {
+            margin: 0 0 16px 0;
+            padding: 0;
+        }
+
+        .content-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Section styling */
+        .section-container {
+            margin-bottom: 32px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            padding: 16px 24px;
+            border-bottom: 2px solid;
+        }
+
+        /* Section-specific colors */
+        .politics-section .section-header {
+            background-color: #FEE2E2;
+            border-color: #DC2626;
+        }
+
+        .national-section .section-header {
+            background-color: #E0F2FE;
+            border-color: #0284C7;
+        }
+
+        .science-section .section-header {
+            background-color: #F0FDF4;
+            border-color: #16A34A;
+        }
+
+        .health-section .section-header {
+            background-color: #FCE7F3;
+            border-color: #DB2777;
+        }
+
+        .world-section .section-header {
+            background-color: #EFF6FF;
+            border-color: #2563EB;
+        }
+
+        .money-section .section-header {
+            background-color: #F0FDF4;
+            border-color: #16A34A;
+        }
+
+        .sports-section .section-header {
+            background-color: #FEF3C7;
+            border-color: #D97706;
+        }
+
+        .opinion-section .section-header {
+            background-color: #F3E8FF;
+            border-color: #9333EA;
+        }
+
+        .culture-section .section-header {
+            background-color: #FFE4E6;
+            border-color: #BE123C;
+        }
+
+        /* Header and content styling */
+        .section-icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .section-title {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .section-content {
+            padding: 24px;
+            background-color: #ffffff;
+        }
+
+        /* Text processing helper */
+        .preserve-whitespace {
+            white-space: pre-wrap;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 600px) {
+            .responsive-table {
+                width: 100% !important;
+            }
+
+            .responsive-padding {
+                padding: 24px !important;
+            }
+
+            .section-header {
+                padding: 12px 16px;
+            }
+
+            .section-content {
+                padding: 16px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .content-text {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" id="bodyTable">
+        <tr>
+            <td align="center" valign="top" id="bodyCell">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" class="responsive-table">
+                    <tr>
+                        <td align="center" style="padding: 20px 0;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);">
+                                <!-- Header -->
+                                <tr>
+                                    <td align="center" class="header-bg responsive-padding" style="padding: 40px 20px; background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);">
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td align="center" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-size: 32px; font-weight: 700; color: #ffffff;">
+                                                    Samachar News Digest
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" style="padding-top: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-size: 16px; color: rgba(255, 255, 255, 0.9);">
+                                                    <%= new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <!-- Content Sections -->
+                                <tr>
+                                    <td class="responsive-padding" style="padding: 32px;">
+                                        <!-- Dynamic Sections -->
+                                        <% const sections = [
+                                            { id: 'politics', name: 'Politics', icon: '📢', class: 'politics-section' },
+                                            { id: 'national', name: 'National', icon: '🏛️', class: 'national-section' },
+                                            { id: 'science_technology', name: 'Science & Technology', icon: '🔬', class: 'science-section' },
+                                            { id: 'health', name: 'Health', icon: '⚕️', class: 'health-section' },
+                                            { id: 'world', name: 'World', icon: '🌏', class: 'world-section' },
+                                            { id: 'money', name: 'Money', icon: '💰', class: 'money-section' },
+                                            { id: 'sports', name: 'Sports', icon: '⚽', class: 'sports-section' },
+                                            { id: 'opinion', name: 'Opinion', icon: '💭', class: 'opinion-section' },
+                                            { id: 'art_culture', name: 'Art & Culture', icon: '🎨', class: 'culture-section' }
+                                        ] %>
+
+                                        <% sections.forEach(section => { %>
+                                            <% if (locals[section.id]) { %>
+                                                <div class="section-container <%= section.class %>">
+                                                    <div class="section-header">
+                                                        <span class="section-icon"><%= section.icon %></span>
+                                                        <h2 class="section-title"><%= section.name %></h2>
+                                                    </div>
+                                                    <div class="section-content">
+                                                        <div class="content-text preserve-whitespace">
+                                                            <%- locals[section.id].split('\n').map(para => 
+                                                                para.trim() ? `<p>${para.trim()}</p>` : ''
+                                                            ).join('') %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <% } %>
+                                        <% }) %>
+                                    </td>
+                                </tr>
+
+                                <!-- Footer -->
+                                <tr>
+                                    <td style="background-color: #F8FAFC; padding: 32px; border-top: 1px solid #E2E8F0;">
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td align="center" style="padding-bottom: 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #64748B;">
+                                                    You're receiving this newsletter because you subscribed to Samachar updates.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">
+                                                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td>
+                                                                <a href="https://thesamachar.vercel.app" style="display: inline-block; padding: 12px 24px; background-color: #DC2626; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                                                                    Visit Samachar
+                                                                </a>
+                                                            </td>
+                                                            <td style="padding: 0 16px; color: #64748B;">•</td>
+                                                            <td>
+                                                                <a href="<%= unsubscribeLink %>" style="color: #DC2626; text-decoration: underline; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;">
+                                                                    Unsubscribe
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

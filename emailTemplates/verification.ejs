@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Samachar Account</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+            background-color: #f1f5f9;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #334155;
+        }
+
+        .email-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 36px;
+            color: white;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 48px 32px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #0f172a;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .message {
+            color: #475569;
+            font-size: 17px;
+            margin-bottom: 36px;
+            padding: 0 24px;
+            line-height: 1.7;
+        }
+
+        .verify-button {
+            display: inline-block;
+            background: #dc2626;
+            color: #ffffff !important;
+            padding: 16px 48px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+        }
+
+        .verify-button:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(220, 38, 38, 0.2);
+            color: #ffffff !important;
+        }
+
+        .secondary-text {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .footer {
+            background: #f8fafc;
+            padding: 40px 32px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-text {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 24px;
+            line-height: 1.7;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-links {
+            margin-top: 24px;
+        }
+
+        .social-links a {
+            color: #dc2626 !important;
+            text-decoration: none;
+            margin: 0 8px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.2s ease;
+        }
+
+        .social-links a:hover {
+            color: #b91c1c !important;
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 20px; }
+            .content { padding: 40px 24px; }
+            h1 { font-size: 24px; }
+            .message { font-size: 16px; padding: 0; }
+            .verify-button { padding: 16px 36px; width: 100%; }
+            .header { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <div class="header">
+            <div class="logo">The Samachar</div>
+            <div class="tagline">Your Trusted News Destination</div>
+        </div>
+        
+        <div class="content">
+            <h1>Welcome to Samachar!</h1>
+            <p class="message">
+                Thank you for joining our community. To start exploring the latest news across politics, business, sports, and more, please verify your email address.
+            </p>
+
+            <% if (verificationLink) { %>
+                <a href="<%= verificationLink %>" class="verify-button">
+                    Verify Email Address
+                </a>
+            <% } %>
+
+            <p class="secondary-text">
+                This verification link will expire in 24 hours
+            </p>
+        </div>
+
+        <div class="footer">
+            <p class="footer-text">
+                If you didn't create an account with Samachar, you can safely ignore this email.
+            </p>
+            <div class="social-links">
+                <a href="https://thesamachar.vercel.app/">Visit Samachar</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
