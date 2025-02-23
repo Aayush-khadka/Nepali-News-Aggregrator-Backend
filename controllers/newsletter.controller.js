@@ -93,12 +93,10 @@ const checkIfEmailIsRegistred = asynchandler(async (req, res) => {
 
   const checkIfAlreadySignedUP = await SignupNewsletter.findOne({ email });
   if (checkIfAlreadySignedUP) {
-    return res
-      .status(200)
-      .json(new ApiResponse(200, "Email is Already Registred!!!"));
+    return res.status(204).json(new ApiResponse(200, "Email is Registred!!!"));
   }
 
-  return res.status(200).json(new ApiResponse(200, "Not Registred!!!"));
+  return res.status(404).json(new ApiResponse(200, "Not Registred!!!"));
 });
 export {
   signupForNewsLetter,
