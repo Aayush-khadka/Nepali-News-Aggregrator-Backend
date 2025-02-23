@@ -88,4 +88,19 @@ const unsubscribeNewsletter = asynchandler(async (req, res) => {
     .json(new ApiResponse(200, "The user Unsubscribed Sucessfully!!!"));
 });
 
-export { signupForNewsLetter, verify, unsubscribeNewsletter };
+const checkIfEmailIsRegistred = asynchandler(async (req, res) => {
+  const email = req.body.email;
+
+  const checkIfAlreadySignedUP = await SignupNewsletter.findOne({ email });
+  if (checkIfAlreadySignedUP) {
+    throw new APIError(500, "The Email is already Signed UP!!!");
+  }
+
+  return res.status(200).json(new ApiResponse(200, "Not Registred!!!"));
+});
+export {
+  signupForNewsLetter,
+  verify,
+  unsubscribeNewsletter,
+  checkIfEmailIsRegistred,
+};
