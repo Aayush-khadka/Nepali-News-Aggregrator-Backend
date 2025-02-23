@@ -16,7 +16,11 @@ const signupForNewsLetter = asynchandler(async (req, res) => {
 
   const checkIfAlreadySignedUP = await SignupNewsletter.findOne({ email });
   if (checkIfAlreadySignedUP) {
-    throw new APIError(400, "The Email is already Signed UP!!!");
+    // Change the response here to send a JSON message
+    return res.status(400).json({
+      success: false,
+      message: "The Email is already Signed UP!!!",
+    });
   }
 
   const token = generateVerificationToken();
@@ -37,9 +41,10 @@ const signupForNewsLetter = asynchandler(async (req, res) => {
     verificationLink: verificationLink,
   });
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, "Verification Link Sent to Email!!"));
+  return res.status(200).json({
+    success: true,
+    message: "Verification Link Sent to Email!!",
+  });
 });
 
 const verify = asynchandler(async (req, res) => {
