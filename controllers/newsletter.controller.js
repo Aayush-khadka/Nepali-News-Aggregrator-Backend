@@ -52,28 +52,28 @@ const verify = asynchandler(async (req, res) => {
 
   try {
     const user = await SignupNewsletter.findOne({ verificationToken: token });
-
     if (!user) {
-      return res.status(400).json({ message: "Invalid or expired token." });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired token.",
+      });
     }
-
     user.isVerified = true;
     user.verificationToken = null;
     await user.save();
 
     return res.status(200).json({
-      status: 200,
+      success: true,
       message: "Successfully Verified Email!!",
     });
   } catch (error) {
     console.error("Error during email verification:", error);
     return res.status(500).json({
-      status: 500,
+      success: false,
       message: "Failed to Verify Email!!",
     });
   }
 });
-
 const unsubscribeNewsletter = asynchandler(async (req, res) => {
   const email = req.body.email;
 
