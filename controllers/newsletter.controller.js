@@ -32,7 +32,7 @@ const signupForNewsLetter = asynchandler(async (req, res) => {
 
   await addedemail.save();
 
-  const verificationLink = ` https://thesamachar.vercel.app/newsletter/verify/?token=${token}`;
+  const verificationLink = ` https://thesamachar.vercel.app/newsletter/verify?token=${token}`;
 
   const subject = "Email Verification for Newsletter";
   const text = `Please click the following link to verify your email: ${verificationLink}`;
