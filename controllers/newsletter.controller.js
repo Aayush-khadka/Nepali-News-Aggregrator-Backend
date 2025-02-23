@@ -32,7 +32,7 @@ const signupForNewsLetter = asynchandler(async (req, res) => {
 
   await addedemail.save();
 
-  const verificationLink = `http://localhost:4000/api/v1/newsletter/verify?token=${token}`;
+  const verificationLink = `https://nepali-news-aggregrator-backend.vercel.app/api/v1/newsletter/verify?token=${token}`;
 
   const subject = "Email Verification for Newsletter";
   const text = `Please click the following link to verify your email: ${verificationLink}`;
