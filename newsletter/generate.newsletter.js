@@ -65,7 +65,7 @@ const sendNewsletter = async () => {
       opinion: opinion,
 
       art_culture: art_culture,
-      unsubscribeLink: "https://your-unsubscribe-url.com",
+      unsubscribeLink: "https://thesamachar.vercel.app/newsletter/unsubscribe",
     });
   }
 };
