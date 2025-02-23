@@ -93,28 +93,4 @@ const unsubscribeNewsletter = asynchandler(async (req, res) => {
     .json(new ApiResponse(200, "The user Unsubscribed Sucessfully!!!"));
 });
 
-const checkIfEmailIsRegistred = asynchandler(async (req, res) => {
-  const { email } = req.body;
-
-  if (!email) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Email is required" });
-  }
-
-  const existingUser = await SignupNewsletter.findOne({ email });
-
-  if (existingUser) {
-    return res.status(204).send(); // 204 means "No Content," ideal for this case
-  }
-
-  return res
-    .status(404)
-    .json({ success: false, message: "Email is not registered" });
-});
-export {
-  signupForNewsLetter,
-  verify,
-  unsubscribeNewsletter,
-  checkIfEmailIsRegistred,
-};
+export { signupForNewsLetter, verify, unsubscribeNewsletter };

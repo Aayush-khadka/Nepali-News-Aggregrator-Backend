@@ -24,19 +24,19 @@ Connect_Db()
 // sendNewsletter();
 
 // cron.schedule("0 */4 * * *", () => {
-// scrapeKathmanduPost()
-//   .then(() => {
-//     console.log("Finished Scraping The Kathmandu Post!!!");
-//     scrapeRisingNepal()
-//       .then(() => {
-//         console.log("Finished Scraping The Rising Nepal: !!!");
-//         getTrending();
-//       })
-//       .catch((err) => {
-//         console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
-//       });
-//   })
-//   .catch((err) => {
-//     console.log("ERROR IN SCRAPING The Kathmandu Post ", err);
-//   });
+scrapeKathmanduPost()
+  .then(() => {
+    console.log("Finished Scraping The Kathmandu Post!!!");
+    scrapeRisingNepal()
+      .then(() => {
+        console.log("Finished Scraping The Rising Nepal: !!!");
+        getTrending();
+      })
+      .catch((err) => {
+        console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
+      });
+  })
+  .catch((err) => {
+    console.log("ERROR IN SCRAPING The Kathmandu Post ", err);
+  });
 // });
