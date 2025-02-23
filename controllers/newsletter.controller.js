@@ -16,7 +16,7 @@ const signupForNewsLetter = asynchandler(async (req, res) => {
 
   const checkIfAlreadySignedUP = await SignupNewsletter.findOne({ email });
   if (checkIfAlreadySignedUP) {
-    throw new APIError(500, "The Email is already Signed UP!!!");
+    throw new APIError(400, "The Email is already Signed UP!!!");
   }
 
   const token = generateVerificationToken();
@@ -89,14 +89,23 @@ const unsubscribeNewsletter = asynchandler(async (req, res) => {
 });
 
 const checkIfEmailIsRegistred = asynchandler(async (req, res) => {
-  const email = req.body.email;
+  const { email } = req.body;
 
-  const checkIfAlreadySignedUP = await SignupNewsletter.findOne({ email });
-  if (checkIfAlreadySignedUP) {
-    return res.status(204).json(new ApiResponse(200, "Email is Registred!!!"));
+  if (!email) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Email is required" });
   }
 
-  return res.status(404).json(new ApiResponse(200, "Not Registred!!!"));
+  const existingUser = await SignupNewsletter.findOne({ email });
+
+  if (existingUser) {
+    return res.status(204).send(); // 204 means "No Content," ideal for this case
+  }
+
+  return res
+    .status(404)
+    .json({ success: false, message: "Email is not registered" });
 });
 export {
   signupForNewsLetter,
