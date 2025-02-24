@@ -5,6 +5,7 @@ import { asynchandler } from "../utils/asyncHandler.js";
 import { SignupNewsletter } from "../models/signup.newsletter.model.js";
 import { sendEmail } from "../utils/sendEmail.js";
 import generateVerificationToken from "../utils/generatetoken.js";
+import { Newsletter } from "../models/newsletter.model.js";
 import dotenv from "dotenv";
 import { ApiError } from "../utils/ApiError.js";
 
@@ -93,4 +94,18 @@ const unsubscribeNewsletter = asynchandler(async (req, res) => {
     .json(new ApiResponse(200, "The user Unsubscribed Sucessfully!!!"));
 });
 
-export { signupForNewsLetter, verify, unsubscribeNewsletter };
+const getNewsletters = asynchandler(async (req, res) => {
+  const newsletters = await Newsletter.find();
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        newsletters,
+        "Sucessfully fetched all news letters!!!"
+      )
+    );
+});
+
+export { signupForNewsLetter, verify, unsubscribeNewsletter, getNewsletters };
