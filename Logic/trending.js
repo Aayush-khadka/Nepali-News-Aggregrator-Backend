@@ -30,6 +30,7 @@ Analyze the following news headlines and return ONLY a list of the top 10 most t
 6.  **Trending Potential:** Evaluate each article's potential to generate discussion and interest based on its headline and subject matter.
 7. ** News older than 1 days should not make it to the trending**
 8. **Dont add things other than the titles not even the numbering in the response.**
+9.** Make sure there is no"," in the end of the title text**
 
  
 
