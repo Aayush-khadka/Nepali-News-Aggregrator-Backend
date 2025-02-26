@@ -27,27 +27,32 @@ Connect_Db()
     console.log("ERROR IN DATABASE: ", err);
   });
 
-// Your existing immediate execution for testing (can be commented out in production)
-// generateCategoryNewsletter()
-// .then(()=>{
-//  sendNewsletter();
-// })
-// .catch((err)=>{
-//   console.log("ERROR IN Sending NewsLetters ", err);
-// })
+sendNewsletter();
 
-scrapeKathmanduPost()
-  .then(() => {
-    console.log("Finished Scraping The Kathmandu Post!!!");
-    scrapeRisingNepal()
-      .then(() => {
-        console.log("Finished Scraping The Rising Nepal: !!!");
-        getTrending();
-      })
-      .catch((err) => {
-        console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
-      });
-  })
-  .catch((err) => {
-    console.log("ERROR IN SCRAPING The Kathmandu Post ", err);
-  });
+// scrapeKathmanduPost()
+//   .then(() => {
+//     console.log("Finished Scraping The Kathmandu Post!!!");
+//     scrapeRisingNepal()
+//       .then(() => {
+//         console.log("Finished Scraping The Rising Nepal: !!!");
+//         getTrending()
+//           .then(() => {
+//             generateCategoryNewsletter()
+//               .then(() => {
+//                 sendNewsletter();
+//               })
+//               .catch((err) => {
+//                 console.log("ERROR IN Sending NewsLetters ", err);
+//               });
+//           })
+//           .catch((err) => {
+//             console.log("ERROR IN NEWSLETTER: ", err);
+//           });
+//       })
+//       .catch((err) => {
+//         console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
+//       });
+//   })
+//   .catch((err) => {
+//     console.log("ERROR IN SCRAPING The Kathmandu Post ", err);
+//   });

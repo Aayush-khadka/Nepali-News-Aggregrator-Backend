@@ -8,8 +8,8 @@ const sendNewsletter = async () => {
     { interests: 1, email: 1, _id: 0 }
   );
 
-  const subject = "News Letter Trial #10";
   const today = new Date().toISOString().split("T")[0];
+  const subject = `The Samachar News letter ${today} `;
 
   for (let user of users) {
     let politics = "",
