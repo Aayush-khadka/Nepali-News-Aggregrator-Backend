@@ -27,28 +27,6 @@ Connect_Db()
     console.log("ERROR IN DATABASE: ", err);
   });
 
-cron.schedule(
-  "0 7 * * 3,6",
-  async () => {
-    console.log(
-      `Running scheduled newsletter job at ${new Date().toISOString()}`
-    );
-
-    generateCategoryNewsletter()
-      .then(() => {
-        sendNewsletter();
-        console.log("Newsletter generated and sent successfully");
-      })
-      .catch((err) => {
-        console.log("ERROR IN Sending NewsLetters ", err);
-      });
-  },
-  {
-    scheduled: true,
-    timezone: "Asia/Kathmandu", // Adjust timezone as needed
-  }
-);
-
 // Your existing immediate execution for testing (can be commented out in production)
 // generateCategoryNewsletter()
 // .then(()=>{
@@ -58,18 +36,18 @@ cron.schedule(
 //   console.log("ERROR IN Sending NewsLetters ", err);
 // })
 
-// scrapeKathmanduPost()
-//   .then(() => {
-//     console.log("Finished Scraping The Kathmandu Post!!!");
-//     scrapeRisingNepal()
-//       .then(() => {
-//         console.log("Finished Scraping The Rising Nepal: !!!");
-//         getTrending();
-//       })
-//       .catch((err) => {
-//         console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
-//       });
-//   })
-//   .catch((err) => {
-//     console.log("ERROR IN SCRAPING The Kathmandu Post ", err);
-//   });
+scrapeKathmanduPost()
+  .then(() => {
+    console.log("Finished Scraping The Kathmandu Post!!!");
+    scrapeRisingNepal()
+      .then(() => {
+        console.log("Finished Scraping The Rising Nepal: !!!");
+        getTrending();
+      })
+      .catch((err) => {
+        console.log("ERROR IN SCRAPING The Rising Nepal: ", err);
+      });
+  })
+  .catch((err) => {
+    console.log("ERROR IN SCRAPING The Kathmandu Post ", err);
+  });

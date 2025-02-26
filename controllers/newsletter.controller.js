@@ -8,7 +8,8 @@ import generateVerificationToken from "../utils/generatetoken.js";
 import { Newsletter } from "../models/newsletter.model.js";
 import dotenv from "dotenv";
 import { ApiError } from "../utils/ApiError.js";
-
+import { generateCategoryNewsletter } from "./Logic/newsletter.js";
+import { sendNewsletter } from "./newsletter/generate.newsletter.js";
 dotenv.config();
 
 const signupForNewsLetter = asynchandler(async (req, res) => {
@@ -108,4 +109,39 @@ const getNewsletters = asynchandler(async (req, res) => {
     );
 });
 
-export { signupForNewsLetter, verify, unsubscribeNewsletter, getNewsletters };
+const changeinterests = asynchandler(async (req, res) => {
+  //TODO: Make users able to Change Interests!!
+});
+
+const sendEmailNewsletter = asynchandler(async (req, res) => {
+  console.log(
+    `Running scheduled newsletter job at ${new Date().toISOString()}`
+  );
+
+  try {
+    console.log(
+      `Running scheduled newsletter job at ${new Date().toISOString()}`
+    );
+
+    generateCategoryNewsletter()
+      .then(() => {
+        sendNewsletter();
+        console.log("Newsletter generated and sent successfully");
+      })
+      .catch((err) => {
+        console.log("ERROR IN Sending NewsLetters ", err);
+      });
+  } catch (error) {
+    throw new ApiError(500, "Failed to Send News letter!!!");
+  }
+
+  return res.status(200).json(new ApiResponse(200, "Sent EmaiL Newsletter!!!"));
+});
+
+export {
+  signupForNewsLetter,
+  verify,
+  unsubscribeNewsletter,
+  getNewsletters,
+  sendEmailNewsletter,
+};
