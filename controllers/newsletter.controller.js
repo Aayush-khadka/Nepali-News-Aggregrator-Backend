@@ -8,8 +8,8 @@ import generateVerificationToken from "../utils/generatetoken.js";
 import { Newsletter } from "../models/newsletter.model.js";
 import dotenv from "dotenv";
 import { ApiError } from "../utils/ApiError.js";
-import { generateCategoryNewsletter } from "./Logic/newsletter.js";
-import { sendNewsletter } from "./newsletter/generate.newsletter.js";
+import { generateCategoryNewsletter } from "../Logic/newsletter.js";
+import { sendNewsletter } from "../newsletter/generate.newsletter.js";
 dotenv.config();
 
 const signupForNewsLetter = asynchandler(async (req, res) => {
