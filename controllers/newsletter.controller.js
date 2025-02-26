@@ -119,23 +119,23 @@ const sendEmailNewsletter = asynchandler(async (req, res) => {
   );
 
   try {
-    console.log(
-      `Running scheduled newsletter job at ${new Date().toISOString()}`
-    );
+    // Await the generateCategoryNewsletter and sendNewsletter calls
+    await generateCategoryNewsletter();
 
-    generateCategoryNewsletter()
-      .then(() => {
-        sendNewsletter();
-        console.log("Newsletter generated and sent successfully");
-      })
-      .catch((err) => {
-        console.log("ERROR IN Sending NewsLetters ", err);
-      });
-  } catch (error) {
+    // If everything goes well, send the newsletter
+    await sendNewsletter();
+
+    console.log("Newsletter generated and sent successfully");
+
+    // Respond with success
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "Sent Email Newsletter!!!"));
+  } catch (err) {
+    // Log error and throw custom ApiError if something goes wrong
+    console.log("ERROR IN Sending NewsLetters ", err);
     throw new ApiError(500, "Failed to Send News letter!!!");
   }
-
-  return res.status(200).json(new ApiResponse(200, "Sent EmaiL Newsletter!!!"));
 });
 
 export {
